@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<SharingRules xmlns="http://soap.sforce.com/2006/04/metadata">
+    <sharingOwnerRules>
+        <fullName>HR_view_TI_s_candidate</fullName>
+        <accessLevel>Read</accessLevel>
+        <label>HR view TI`s candidate</label>
+        <sharedTo>
+            <role>HR</role>
+        </sharedTo>
+        <sharedFrom>
+            <role>Technical_Interviewer</role>
+        </sharedFrom>
+    </sharingOwnerRules>
+</SharingRules>

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Company_offices__c</fullName>
+    <externalId>false</externalId>
+    <formula>IF(ISPICKVAL(Location__c,&apos;Ukraine&apos;) ,&apos;Kyiv, Lviv, Ternopil&apos; , 
+IF( ISPICKVAL(Location__c, &apos;USA&apos;), &apos;Chicago, Boston, New York&apos; , 
+IF( ISPICKVAL(Location__c, &apos;Belarus&apos;), &apos;Minsk, Brest&apos;, 
+IF( ISPICKVAL(Location__c, &apos;Poland &apos;),&apos;Wroclaw&apos;,&apos;Not defined!&apos;))))</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <label>Company offices</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>
