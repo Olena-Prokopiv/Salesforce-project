@@ -1,0 +1,1 @@
+SELECT CandidateLevel__c,Location__c,Open_Due_Date__c,Position_Budget__c  ,Position_Description__c,Name,Practice_Unit__c, Priority__c,Client__c,HR_manager__c FROM JobPosition__c

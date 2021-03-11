@@ -1,0 +1,1 @@
+SELECT Additional_Question__c,Expected_Salary__c,Status__c FROM JobApplication__c

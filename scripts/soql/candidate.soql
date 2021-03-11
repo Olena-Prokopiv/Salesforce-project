@@ -1,0 +1,1 @@
+SELECT Email__c, Name, PhoneNumber__c, Recovered__c,USA_visa_holder__c, USA_visa_valid_From__c, USA_visa_valid_To__c,WorkingCompany__c,Years_in_IT__c FROM Candidate__c
