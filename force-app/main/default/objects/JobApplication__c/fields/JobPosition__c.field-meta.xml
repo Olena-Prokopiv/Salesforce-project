@@ -5,7 +5,7 @@
     <label>Job Position</label>
     <referenceTo>JobPosition__c</referenceTo>
     <relationshipLabel>Job Applications</relationshipLabel>
-    <relationshipName>Job_Applications</relationshipName>
+    <relationshipName>JobApplications</relationshipName>
     <relationshipOrder>0</relationshipOrder>
     <reparentableMasterDetail>false</reparentableMasterDetail>
     <trackTrending>false</trackTrending>
