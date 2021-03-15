@@ -25,7 +25,6 @@ public with sharing class JobPositionTriggerHelper {
                
                 Messaging.SingleEmailMessage CaseNotificationmail = new Messaging.SingleEmailMessage();
                 CaseNotificationmail.setToAddresses(new List<String> { hr.Email });
-               
                 CaseNotificationmail.setReplyTo('noreply@support.sf');
                 CaseNotificationmail.setSubject('High budget notification');    
                 CaseNotificationmail.setHtmlBody('Please review this high budget position '+ oldPosition.Name);
