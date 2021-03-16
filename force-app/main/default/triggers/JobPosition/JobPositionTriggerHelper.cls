@@ -20,7 +20,7 @@ public with sharing class JobPositionTriggerHelper {
             Contact hr=[Select Id, Email from Contact where Id = :oldPosition.HR_Manager__c];
             
             if((newPosition.Position_Budget__c != oldPosition.Position_Budget__c) && newPosition.Position_Budget__c>5000){
-                Task newTask = new Task(OwnerId = oldPosition.OwnerId, Subject='Review high budget position '+ oldPosition.Name);
+                Task newTask = new Task(OwnerId = UserInfo.getUserId(), Subject='Review high budget position '+ oldPosition.Name, Status='New',WhoId=hr.Id );
                 taskList.add(newTask);
                
                 Messaging.SingleEmailMessage CaseNotificationmail = new Messaging.SingleEmailMessage();
