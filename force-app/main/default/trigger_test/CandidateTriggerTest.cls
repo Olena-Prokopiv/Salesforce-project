@@ -22,9 +22,6 @@ public with sharing class CandidateTriggerTest {
                 System.assert(results[k].getErrors().size() > 0);
                 System.assertEquals('Please specify your visa date information', results[k].getErrors()[0].getMessage());
             }
-            else{
-                System.assert(results[k].isSuccess());
-            }
             k++;
         }
     }
@@ -40,7 +37,6 @@ public with sharing class CandidateTriggerTest {
         insert Candidates;
         delete Candidates;
         undelete Candidates;
-        
         
         List<Candidate__c> InsertedCandidates = [SELECT Id,Recovered__c FROM Candidate__c];
         

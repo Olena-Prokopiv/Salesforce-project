@@ -3,7 +3,7 @@ trigger JobPositionTrigger on JobPosition__c (before insert,before update) {
     {
         JobPositionTriggerHandler.onBeforeInsert(Trigger.new);
     }
-    else
+    else if(Trigger.isUpdate)
     {
         JobPositionTriggerHandler.onBeforeUpdate(Trigger.oldMap,Trigger.newMap);
     }

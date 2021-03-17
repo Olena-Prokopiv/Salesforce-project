@@ -10,7 +10,7 @@ trigger CandidateTrigger on Candidate__c (before insert, before update, after un
             CandidateTriggerHandler.onBeforeUpdate(Trigger.new);
         }
     }
-    else
+    else if (Trigger.isAfter)
     {
         CandidateTriggerHandler.onAfterUndelete(Trigger.new);
     }

@@ -32,7 +32,7 @@ public with sharing class JobPositionTriggerTest {
     static void testCreatedTask()
     {
         List<JobPosition__c> JobPositions = new List<JobPosition__c>();
-        Contact contact=new Contact(LastName ='Klery');
+        Contact contact=new Contact(LastName ='Klery',Email='kleryk@gmail.com');
         insert contact;
         
         for (Integer i = 0; i < 250; ++i) {
