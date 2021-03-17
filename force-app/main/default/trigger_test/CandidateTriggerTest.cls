@@ -44,4 +44,4 @@ public with sharing class CandidateTriggerTest {
             System.assert(candidate.Recovered__c==true);
         }
     }    
-}
+} 
