@@ -13,5 +13,5 @@ trigger CandidateTrigger on Candidate__c (before insert, before update, after un
     else if (Trigger.isAfter)
     {
         CandidateTriggerHandler.onAfterUndelete(Trigger.new);
-    }
+    } 
 }
