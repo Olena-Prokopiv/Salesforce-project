@@ -31,9 +31,7 @@ public with sharing class JobPositionTriggerHelper {
                 mails.add(CaseNotificationmail); 
             }
         }
-        
-        Messaging.sendEmail(mails);
-        
         insert taskList;    
+        Messaging.sendEmail(mails);
     }
 }

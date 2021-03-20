@@ -1,29 +1,23 @@
 @isTest
 public with sharing class JobPositionTriggerTest {
+    @TestSetup
+    static void makeData(){
+        List<JobPosition__c> JobPositions = DataFactory.generatePositionRecords(250);
+        insert JobPositions;
+    }
+    
     @isTest
     static void testUpdateTitleForPracticeUnitSalesforce()
     {
-        List<JobPosition__c> JobPositions = new List<JobPosition__c>();
-        Contact contact=new Contact(LastName ='Klery');
-        insert contact;
+        List<JobPosition__c> JobPositions = [SELECT Id,Name,Practice_Unit__c FROM JobPosition__c];
         
-        for (Integer i = 0; i < 250; ++i) {
-            if(math.mod(i,2)==1)
-            {
-                JobPositions.add(new JobPosition__c(Name = 'position'+i,CandidateLevel__c='Junior Software Engineer',Location__c='Ukraine',Practice_Unit__c='Salesforce',Priority__c='Low',Position_Budget__c=400+i, HR_Manager__c =contact.Id));
+        for(JobPosition__c position:JobPositions) {                 
+            if(position.Practice_Unit__c=='Salesforce'){
+                System.assert(position.Name.startsWith('SF-'));
             }
             else
             {
-                JobPositions.add(new JobPosition__c(Name = 'position'+i,CandidateLevel__c='Middle Software Engineer',Location__c='Poland',Practice_Unit__c='.Net',Priority__c='Low',Position_Budget__c=400+i, HR_Manager__c =contact.Id));
-            }
-        }
-        insert JobPositions;
-        
-        List<JobPosition__c> UpdatedJobPositions = [SELECT Id,Name,Practice_Unit__c FROM JobPosition__c];
-        
-        for(JobPosition__c position:UpdatedJobPositions) {                 
-            if(position.Practice_Unit__c=='Salesforce'){
-                System.assert(position.Name.startsWith('SF-'));
+                System.assert(!position.Name.startsWith('SF-'));
             }
         }
     }
@@ -31,17 +25,14 @@ public with sharing class JobPositionTriggerTest {
     @isTest
     static void testCreatedTask()
     {
-        List<JobPosition__c> JobPositions = new List<JobPosition__c>();
-        Contact contact=new Contact(LastName ='Klery',Email='kleryk@gmail.com');
-        insert contact;
+        List<JobPosition__c> JobPositions = [SELECT Id,Name,CandidateLevel__c,Position_Budget__c FROM JobPosition__c];
         
-        for (Integer i = 0; i < 250; ++i) {
-            JobPositions.add(new JobPosition__c(Name = 'position'+i,CandidateLevel__c='Junior Software Engineer',Location__c='Ukraine',Practice_Unit__c='Salesforce',Priority__c='Low',Position_Budget__c=400+i, HR_Manager__c =contact.Id));
-        }
-        insert JobPositions;
         
-        for(JobPosition__c position:JobPositions) {                 
-            position.Position_Budget__c=5200;
+        for(JobPosition__c position:JobPositions) {
+            if(position.CandidateLevel__c=='Middle Software Engineer')
+            {
+                position.Position_Budget__c=5200;
+            }
         }      
         
         Test.startTest();
@@ -49,16 +40,37 @@ public with sharing class JobPositionTriggerTest {
         Test.stopTest();
         
         
-        List <Task> createdTask = [SELECT Subject, WhoId, OwnerId FROM Task];
+        List <Task> createdTask = [SELECT Id FROM Task WHERE Subject LIKE 'Review high budget position %'];
         
-        integer k=0;
+        integer count=0,count2;
         for(JobPosition__c updatedposition:JobPositions)
         {
             if(updatedposition.Position_Budget__c>5000)
             {
-                System.assert(createdTask[k].Subject=='Review high budget position '+updatedposition.Name  );
+                count++;      
             }
-            k++;
         }
+        System.assertEquals(count,createdTask.size());
+        
+    }
+    @isTest
+    static void testNotCreatedTask()
+    {
+        List<JobPosition__c> JobPositions = [SELECT Id,Name,CandidateLevel__c,Position_Budget__c FROM JobPosition__c];
+        
+        
+        for(JobPosition__c position:JobPositions) {
+            if(position.CandidateLevel__c=='Middle Software Engineer')
+            {
+                position.Position_Budget__c=4800;
+            }
+        }      
+        
+        Test.startTest();
+        update JobPositions;
+        Test.stopTest();
+        
+        List <Task> createdTask = [SELECT Id FROM Task WHERE Subject LIKE 'Review high budget position %'];
+        System.assertEquals(0,createdTask.size());
     }
 }

@@ -7,6 +7,7 @@
     <columns>USA_visa_holder__c</columns>
     <columns>USA_visa_valid_From__c</columns>
     <columns>USA_visa_valid_To__c</columns>
+    <columns>Recovered__c</columns>
     <filterScope>Everything</filterScope>
     <label>All</label>
 </ListView>
