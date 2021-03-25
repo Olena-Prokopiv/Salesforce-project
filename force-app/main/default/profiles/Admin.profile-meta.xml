@@ -6,10 +6,6 @@
         <visible>true</visible>
     </applicationVisibilities>
     <classAccesses>
-        <apexClass>CandidateTriggerControl</apexClass>
-        <enabled>true</enabled>
-    </classAccesses>
-    <classAccesses>
         <apexClass>CandidateTriggerHandler</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -247,6 +243,10 @@
         <recordType>JobPosition__c.Internal_Position</recordType>
         <visible>false</visible>
     </recordTypeVisibilities>
+    <tabVisibilities>
+        <tab>Candidate_Applications</tab>
+        <visibility>DefaultOn</visibility>
+    </tabVisibilities>
     <tabVisibilities>
         <tab>Candidate__c</tab>
         <visibility>DefaultOn</visibility>

@@ -9,6 +9,7 @@
     <columns>Company_offices__c</columns>
     <columns>Min_Expected_Salary__c</columns>
     <columns>Max_Expected_Salary__c</columns>
+    <columns>Open_Due_Date__c</columns>
     <filterScope>Everything</filterScope>
     <label>All</label>
 </ListView>

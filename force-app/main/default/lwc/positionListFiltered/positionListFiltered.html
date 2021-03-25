@@ -1,0 +1,54 @@
+<template>
+    <div class="slds-p-around_medium lgc-bg list_view_and_table_container">
+        <lightning-tile label="List of Job Positions" title="List of Job Positions" type="media" href="#" class="list_view_container">
+            <lightning-icon slot="media" icon-name="standard:orders" size="medium" class="icon_custom_class">
+            </lightning-icon>
+            <div class="slds-form-element">
+                <div class="slds-form-element__control">
+                    <div class="slds-combobox_container slds-size_small">
+                        <div class={dropdownTriggerClass} aria-expanded="false" aria-haspopup="listbox" role="combobox">
+                            <div class="slds-combobox__form-element slds-input-has-icon slds-input-has-icon_right"
+                                role="none" onclick={handleClickExtend}>
+                                <span class="current_filter">{currentFilter}
+                                    <lightning-icon
+                                        class="slds-button__icon slds-icon-utility-down slds-icon_container forceIcon"
+                                        data-data-rendering-service-uid="232" data-aura-rendered-by="371:0"
+                                        data-aura-class="forceIcon" icon-name="utility:down" size="x-small">
+                                    </lightning-icon>
+                                </span>
+                            </div>
+                            <div id="listbox-id-1" class="slds-dropdown slds-dropdown_length-5 slds-dropdown_fluid"
+                                role="listbox">
+                                <ul class="slds-listbox slds-listbox_vertical" role="presentation">
+                                    <template for:each={filterOptions} for:item="option">
+                                        <li role="presentation" class="slds-listbox__item" key={option.value}>
+                                            <div class="slds-media slds-listbox__option slds-listbox__option_plain slds-media_small"
+                                                data-filter={option.value} onclick={handleFilterChangeButton}>
+                                                <span class="slds-media__figure slds-listbox__option-icon"
+                                                    data-filter={option.value}></span>
+                                                <span class="slds-media__body" data-filter={option.value}>
+                                                    <span class="slds-truncate" title="Option A"
+                                                        data-filter={option.value}>{option.label}</span>
+                                                </span>
+                                            </div>
+                                        </li>
+                                    </template>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </lightning-tile>
+    </div>
+    <lightning-card>
+        <template if:false={isLoaded}> 
+            <div class="spinner_class_div">
+                <lightning-spinner class="spinner_class" alternative-text="Loading" variant="brand">
+                </lightning-spinner>
+            </div>
+        </template>
+        <lightning-datatable key-field="Id" data={itemsForCurrentView} columns={columns}>
+        </lightning-datatable>
+    </lightning-card>
+</template>

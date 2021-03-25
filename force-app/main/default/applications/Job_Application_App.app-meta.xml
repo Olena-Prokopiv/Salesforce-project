@@ -11,6 +11,7 @@
     <label>Job Application App</label>
     <navType>Standard</navType>
     <setupExperience>all</setupExperience>
+    <tabs>Candidate_Applications</tabs>
     <tabs>JobPosition__c</tabs>
     <tabs>standard-Contact</tabs>
     <tabs>Candidate__c</tabs>
