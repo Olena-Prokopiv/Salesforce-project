@@ -1,0 +1,24 @@
+<template>
+    <div class="slds-p-around_medium lgc-bg list_view_and_table_container">
+        <lightning-tile label="List of Applications for selected Job Position" title="List of Applications for selected Job Position" type="media" href="#" class="list_view_container">
+            <lightning-icon slot="media" icon-name="standard:orders" size="medium" class="icon_custom_class">
+            </lightning-icon>
+            <div class="slds-grid slds-gutters">
+                <div class="slds-col">
+                    <span>Selected Records: <b style="color:red;">{recordsCount}</b></span>
+                </div>
+            </div>
+        </lightning-tile>
+        <lightning-button label={buttonLabel} icon-name="utility:delete" disabled={isTrue} variant="destructive"  onclick={deleteJobApplications} style="margin-left: 40%"></lightning-button>
+    </div>
+    <lightning-card>
+        <template if:false={isLoaded}> 
+            <div class="spinner_class_div">
+                <lightning-spinner class="spinner_class" alternative-text="Loading" variant="brand">
+                </lightning-spinner>
+            </div>
+        </template>
+        <lightning-datatable key-field="Id" data={allApplications} columns={columns} onrowselection={getSelectedRecords}>
+        </lightning-datatable>
+    </lightning-card>
+</template>
