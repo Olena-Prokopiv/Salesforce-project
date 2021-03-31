@@ -1,25 +1,27 @@
 import {LightningElement, track, wire} from 'lwc';
 
+import getApplicationList from '@salesforce/apex/ApplicationController.getApplicationList';
+import deleteApplications from '@salesforce/apex/ApplicationController.deleteApplications';
+
+import { updateRecord } from 'lightning/uiRecordApi';
+import { ShowToastEvent } from 'lightning/platformShowToastEvent';
+import { refreshApex } from '@salesforce/apex';
+
 import ID_FIELD from '@salesforce/schema/JobApplication__c.Name';
 import EXPECTED_SALARY_FIELD from '@salesforce/schema/JobApplication__c.Expected_Salary__c';
 import HPS_PHONE_FIELD from '@salesforce/schema/JobApplication__c.HR_phone_number__c';
 
-import getApplicationList from '@salesforce/apex/ApplicationController.getApplicationList';
-import deleteApplications from '@salesforce/apex/ApplicationController.deleteApplications';
-
-import {ShowToastEvent} from 'lightning/platformShowToastEvent';
-import {refreshApex} from '@salesforce/apex';
-
 const COLUMNS = [
-    {label: 'Application', fieldName: ID_FIELD.fieldApiName, type: 'num', hideDefaultActions: true},
-    {label: 'Expected salary', fieldName: EXPECTED_SALARY_FIELD.fieldApiName, type: 'num', hideDefaultActions: true},
-    {label: 'HR`s phone', fieldName: HPS_PHONE_FIELD.fieldApiName, type: 'text', hideDefaultActions: true}
+    {label: 'Application', fieldName: ID_FIELD.fieldApiName, type: 'num', editable: true},
+    {label: 'Expected salary', fieldName: EXPECTED_SALARY_FIELD.fieldApiName, type: 'num',editable: true},
+    {label: 'HR`s phone', fieldName: HPS_PHONE_FIELD.fieldApiName, type: 'text',editable: true}
 ];
 
 
 export default class ApplicationList extends LightningElement {
-    columns = COLUMNS;
-    @track allApplications;
+    columns = COLUMNS; 
+    
+    @track allApplications; 
     @track isExpanded = false;
     @track buttonLabel = 'Delete';
     @track isLoaded = false;
@@ -28,22 +30,60 @@ export default class ApplicationList extends LightningElement {
 
 
     selectedRecords = [];
-    refreshTable;
-    error;
+    saveDraftValues = []; 
 
     @wire(getApplicationList)
     loadPositions({error, data}) {
-        this.refreshTable = data;
-        this.allApplications = data;
+        this.wiredRecords = data; 
+        if(data)
+        {
+            this.allApplications = data;
+            this.error = undefined;
+        }
+        else{
+            this.error = error;
+            this.allApplications = undefined;
+        }
     }
     
-
     renderedCallback() {
         this.isLoaded = true;
     }
 
     handleClickExtend() {
         this.isExpanded = !this.isExpanded;
+    }
+  
+
+    handleSave(event) {
+        this.saveDraftValues = event.detail.draftValues;
+        const recordInputs = this.saveDraftValues.slice().map(draft => {
+            const fields = Object.assign({}, draft);
+            return { fields };
+        });
+
+        const promises = recordInputs.map(recordInput => updateRecord(recordInput));
+        Promise.all(promises).then(res => {
+            this.dispatchEvent(
+                new ShowToastEvent({
+                    title: 'Success',
+                    message: 'Application(s) Updated Successfully!!',
+                    variant: 'success'
+                })
+            );
+            this.saveDraftValues = [];
+            return this.refresh();
+        }).catch(error => {
+            this.dispatchEvent(
+                new ShowToastEvent({
+                    title: 'Error',
+                    message: 'An Error Occured!!',
+                    variant: 'error'
+                })
+            );
+        }).finally(() => {
+            this.saveDraftValues = [];
+        });
     }
 
 
@@ -62,7 +102,6 @@ export default class ApplicationList extends LightningElement {
         window.console.log('selectedRecords ====> ' +this.selectedRecords);
     }
 
-
     deleteJobApplications() {
         if (this.selectedRecords) {
             this.buttonLabel = 'Processing....';
@@ -70,7 +109,6 @@ export default class ApplicationList extends LightningElement {
             this.deleteApplic();
         }
     }
-
 
     deleteApplic() {
         deleteApplications({lstApplicationIds: this.selectedRecords})
@@ -91,15 +129,15 @@ export default class ApplicationList extends LightningElement {
             this.template.querySelector('lightning-datatable').selectedRows = [];
             this.recordsCount = 0;
 
-            /*
+            
             getApplicationList().then(result=>{
                 console.log('Refresh here');
                 console.log(result);
-                this.allApplications=result;
-                this.refreshTable = result;
-                
-            });*/
-            return refreshApex(this.refreshTable);
+                this.allApplications=result;  
+                console.log(allApplications);
+            });
+            
+            return this.refresh();
         })
         .catch(error => {
             window.console.log(error);
@@ -112,4 +150,9 @@ export default class ApplicationList extends LightningElement {
             );
         });
     }  
-}
+
+
+    async refresh() {
+        await refreshApex(this.allApplications);
+    }
+} 

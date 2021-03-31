@@ -10,10 +10,11 @@ public with sharing class ApplicationController {
         ];
     }
 
-    @AuraEnabled(cacheable=true)
+    @AuraEnabled(cacheable=false)
     public static void deleteApplications(List<Id> lstApplicationIds){
+        List<JobApplication__c> lstToDelete = new List<JobApplication__c>();
+
         try {
-            List<JobApplication__c> lstToDelete = new List<JobApplication__c>();
             System.debug('lstApplicationIds ====> '+lstApplicationIds);
             for(Id idApplication : lstApplicationIds) {
                 lstToDelete.add(new JobApplication__c(Id = idApplication));
