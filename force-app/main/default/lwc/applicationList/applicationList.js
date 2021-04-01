@@ -12,9 +12,9 @@ import EXPECTED_SALARY_FIELD from '@salesforce/schema/JobApplication__c.Expected
 import HPS_PHONE_FIELD from '@salesforce/schema/JobApplication__c.HR_phone_number__c';
 
 const COLUMNS = [
-    {label: 'Application', fieldName: ID_FIELD.fieldApiName, type: 'num', editable: true},
+    {label: 'Application', fieldName: ID_FIELD.fieldApiName, type: 'num',locked: true},
     {label: 'Expected salary', fieldName: EXPECTED_SALARY_FIELD.fieldApiName, type: 'num',editable: true},
-    {label: 'HR`s phone', fieldName: HPS_PHONE_FIELD.fieldApiName, type: 'text',editable: true}
+    {label: 'HR`s phone', fieldName: HPS_PHONE_FIELD.fieldApiName, type: 'text',locked: true}
 ];
 
 
@@ -54,6 +54,13 @@ export default class ApplicationList extends LightningElement {
         this.isExpanded = !this.isExpanded;
     }
   
+
+    addJobApplications(){
+    let newApplication = {JobPosition__c:"",Expected_Salary__c:"",Candidate__c:""}
+    this.data = [...this.data, newApplication];
+}
+
+
 
     handleSave(event) {
         this.saveDraftValues = event.detail.draftValues;
@@ -99,7 +106,6 @@ export default class ApplicationList extends LightningElement {
         }
 
         this.selectedRecords = Array.from(conIds);
-        window.console.log('selectedRecords ====> ' +this.selectedRecords);
     }
 
     deleteJobApplications() {
@@ -113,8 +119,6 @@ export default class ApplicationList extends LightningElement {
     deleteApplic() {
         deleteApplications({lstApplicationIds: this.selectedRecords})
         .then(data => {
-            window.console.log('data ====> ' + data);
-
             this.buttonLabel = 'Delete';
             this.isTrue = false;
 
@@ -131,12 +135,8 @@ export default class ApplicationList extends LightningElement {
 
             
             getApplicationList().then(result=>{
-                console.log('Refresh here');
-                console.log(result);
                 this.allApplications=result;  
-                console.log(allApplications);
             });
-            
             return this.refresh();
         })
         .catch(error => {

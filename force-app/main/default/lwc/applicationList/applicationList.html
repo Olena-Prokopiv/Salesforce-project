@@ -9,8 +9,9 @@
                 </div>
             </div>
         </lightning-tile>
-        <lightning-button label={buttonLabel} icon-name="utility:delete" disabled={isTrue} variant="destructive"  onclick={deleteJobApplications} style="margin-left: 40%"></lightning-button>
-    </div>
+        <!-- <lightning-button label="Add" icon-name="utility:add" variant="brand" onclick={addJobApplications} ></lightning-button> -->
+        <lightning-button label={buttonLabel} icon-name="utility:delete" disabled={isTrue} variant="destructive"  onclick={deleteJobApplications} ></lightning-button>
+  </div>
     <lightning-card>
         <template if:false={isLoaded}> 
             <div class="spinner_class_div">
