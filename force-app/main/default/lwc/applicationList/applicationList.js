@@ -12,38 +12,40 @@ import EXPECTED_SALARY_FIELD from '@salesforce/schema/JobApplication__c.Expected
 import HPS_PHONE_FIELD from '@salesforce/schema/JobApplication__c.HR_phone_number__c';
 
 const COLUMNS = [
-    {label: 'Application', fieldName: ID_FIELD.fieldApiName, type: 'num',locked: true},
+    {label: 'Application', fieldName: ID_FIELD.fieldApiName, type: 'num'},
     {label: 'Expected salary', fieldName: EXPECTED_SALARY_FIELD.fieldApiName, type: 'num',editable: true},
-    {label: 'HR`s phone', fieldName: HPS_PHONE_FIELD.fieldApiName, type: 'text',locked: true}
+    {label: 'HR`s phone', fieldName: HPS_PHONE_FIELD.fieldApiName, type: 'text'}
 ];
 
 
 export default class ApplicationList extends LightningElement {
     columns = COLUMNS; 
     
-    @track allApplications; 
+    
+  @track allApplications = []; 
+    @track data;
     @track isExpanded = false;
     @track buttonLabel = 'Delete';
     @track isLoaded = false;
     @track isTrue = false;
     @track recordsCount = 0;
+    @track applicationList = [];
 
 
     selectedRecords = [];
     saveDraftValues = []; 
+    error;
 
-    @wire(getApplicationList)
-    loadPositions({error, data}) {
-        this.wiredRecords = data; 
-        if(data)
-        {
-            this.allApplications = data;
+    @wire(getApplicationList)  loadPositions(result) {
+        this.allApplications = result;
+
+        if (result.data) {
+            this.applicationList = result.data;
             this.error = undefined;
-        }
-        else{
-            this.error = error;
-            this.allApplications = undefined;
-        }
+          } else if (result.error) {
+            this.error = result.error;
+            this.applicationList = [];
+          }
     }
     
     renderedCallback() {
@@ -54,12 +56,6 @@ export default class ApplicationList extends LightningElement {
         this.isExpanded = !this.isExpanded;
     }
   
-
-    addJobApplications(){
-    let newApplication = {JobPosition__c:"",Expected_Salary__c:"",Candidate__c:""}
-    this.data = [...this.data, newApplication];
-}
-
 
 
     handleSave(event) {
@@ -79,7 +75,7 @@ export default class ApplicationList extends LightningElement {
                 })
             );
             this.saveDraftValues = [];
-            return this.refresh();
+            return refreshApex(this.allApplications);
         }).catch(error => {
             this.dispatchEvent(
                 new ShowToastEvent({
@@ -118,7 +114,8 @@ export default class ApplicationList extends LightningElement {
 
     deleteApplic() {
         deleteApplications({lstApplicationIds: this.selectedRecords})
-        .then(data => {
+        .then(result  => {
+
             this.buttonLabel = 'Delete';
             this.isTrue = false;
 
@@ -133,12 +130,8 @@ export default class ApplicationList extends LightningElement {
             this.template.querySelector('lightning-datatable').selectedRows = [];
             this.recordsCount = 0;
 
-            
-            getApplicationList().then(result=>{
-                this.allApplications=result;  
-            });
-            return this.refresh();
-        })
+            return refreshApex(this.allApplications);
+       })
         .catch(error => {
             window.console.log(error);
             this.dispatchEvent(
@@ -149,10 +142,6 @@ export default class ApplicationList extends LightningElement {
                 }),
             );
         });
+        
     }  
-
-
-    async refresh() {
-        await refreshApex(this.allApplications);
-    }
 } 

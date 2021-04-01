@@ -19,7 +19,7 @@
                 </lightning-spinner>
             </div>
         </template>
-        <lightning-datatable key-field="Id" data={allApplications} columns={columns} onrowselection={getSelectedRecords} onsave={handleSave} draft-values={saveDraftValues}  >
+        <lightning-datatable key-field="Id" data={applicationList} columns={columns} onrowselection={getSelectedRecords} onsave={handleSave} draft-values={saveDraftValues} >
         </lightning-datatable>
     </lightning-card>
 </template>
