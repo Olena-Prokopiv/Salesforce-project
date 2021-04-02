@@ -48,7 +48,9 @@
                 </lightning-spinner>
             </div>
         </template>
-        <lightning-datatable key-field="Id" data={itemsForCurrentView} columns={columns}>
-        </lightning-datatable>
+            <a href="#" onclick={selectHandler}>
+                <lightning-datatable key-field="Id" data={itemsForCurrentView} columns={columns}>
+                </lightning-datatable>
+            </a>
     </lightning-card>
 </template>

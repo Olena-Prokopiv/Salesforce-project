@@ -20,9 +20,10 @@ const COLUMNS = [
 
 export default class ApplicationList extends LightningElement {
     columns = COLUMNS; 
+    selectedPosition_applic;
     
     
-  @track allApplications = []; 
+    @track allApplications = []; 
     @track data;
     @track isExpanded = false;
     @track buttonLabel = 'Delete';
@@ -47,6 +48,16 @@ export default class ApplicationList extends LightningElement {
             this.applicationList = [];
           }
     }
+
+
+    contactSelected(event) {
+        const positionId = event.detail;
+        this.selectedPosition_applic = this.applicationList.find(application => application.JobPosition__c === positionId);
+    }
+    get listIsNotEmpty() {
+        return this.allApplications && Array.isArray(this.applicationList) && this.allApplications.data.length > 0;
+    }
+
     
     renderedCallback() {
         this.isLoaded = true;

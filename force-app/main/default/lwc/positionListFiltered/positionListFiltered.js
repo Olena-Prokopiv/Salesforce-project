@@ -1,4 +1,4 @@
-import {LightningElement, track, wire} from 'lwc';
+import {LightningElement, track, wire, api} from 'lwc';
 import NAME_FIELD from '@salesforce/schema/JobPosition__c.Name';
 import OPEN_DUE_DATE_FIELD from '@salesforce/schema/JobPosition__c.Open_Due_Date__c';
 import PRACTICE_UNIT_FIELD from '@salesforce/schema/JobPosition__c.Practice_Unit__c';
@@ -26,6 +26,8 @@ const filterOptions = [
 
 
 export default class PositionListFiltered extends LightningElement {
+    @api position;
+    
     columns = COLUMNS;
     allPositions;
     @track currentFilter = ALL_PRACTICE_UNIT;
@@ -42,6 +44,12 @@ export default class PositionListFiltered extends LightningElement {
 
     renderedCallback() {
         this.isLoaded = true;
+    }
+
+    selectHandler(event) {
+        event.preventDefault();
+        const selectedEvent = new CustomEvent('selected', { detail: this.position.Id });
+        this.dispatchEvent(selectedEvent);
     }
 
     get dropdownTriggerClass() {

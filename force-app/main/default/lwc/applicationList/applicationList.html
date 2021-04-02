@@ -9,9 +9,19 @@
                 </div>
             </div>
         </lightning-tile>
-        <!-- <lightning-button label="Add" icon-name="utility:add" variant="brand" onclick={addJobApplications} ></lightning-button> -->
         <lightning-button label={buttonLabel} icon-name="utility:delete" disabled={isTrue} variant="destructive"  onclick={deleteJobApplications} ></lightning-button>
   </div>
+    <!-- <lightning-card>
+        <template if:true={listIsNotEmpty}>
+            <template for:each={applicationList} for:item="contact">
+                <c-contact-list-item key={contact.JobPosition__c} contact={contact} onselected={selectedPosition_applic}></c-contact-list-item>
+            </template>
+        </template>
+        <template if:true={selectedPosition_applic}>
+            <lightning-datatable key-field="Id" data={applicationList} columns={columns} onrowselection={getSelectedRecords} onsave={handleSave} draft-values={saveDraftValues}  >
+            </lightning-datatable>
+        </template>
+    </lightning-card> -->
     <lightning-card>
         <template if:false={isLoaded}> 
             <div class="spinner_class_div">
