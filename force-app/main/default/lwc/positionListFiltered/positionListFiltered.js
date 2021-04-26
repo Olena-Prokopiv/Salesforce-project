@@ -15,12 +15,16 @@ const COLUMNS = [
 const DOT_NET = '.Net';
 const JAVA = 'Java';
 const SALESFORCE = 'Salesforce';
+const PYTHON = 'Python';
+const PHP = 'PHP';
 const ALL_PRACTICE_UNIT = 'All';
 
 const filterOptions = [
     {value: DOT_NET, label: DOT_NET},
     {value: JAVA, label: JAVA},
     {value: SALESFORCE, label: SALESFORCE},
+    {value: PYTHON, label: PYTHON},
+    {value: PHP, label: PHP},
     {value: ALL_PRACTICE_UNIT, label: ALL_PRACTICE_UNIT},
 ];
 

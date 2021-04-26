@@ -6,6 +6,22 @@ public with sharing class JobPositionTriggerHelper {
             {
                 positionitem.Name= 'SF-'+positionitem.Name;
             }
+            else if(positionitem.Practice_Unit__c == 'Java')
+            {
+                positionitem.Name= 'J-'+positionitem.Name;
+            }
+            else if(positionitem.Practice_Unit__c == 'Python')
+            {
+                positionitem.Name= 'PY-'+positionitem.Name;
+            }
+            else if(positionitem.Practice_Unit__c == 'PHP')
+            {
+                positionitem.Name= 'PHP-'+positionitem.Name;
+            }
+             else if(positionitem.Practice_Unit__c == '.Net')
+            {
+                positionitem.Name= 'C#-'+positionitem.Name;
+            }
         }
     }
     

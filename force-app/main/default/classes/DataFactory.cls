@@ -39,7 +39,7 @@ public class DataFactory {
         List<JobPosition__c> Positions = new List<JobPosition__c>();
         
         for (Integer i = 0; i < count; i++) {
-            if(math.mod(i,2)==0){
+            if(math.mod(i,5)==0){
                 Positions.add(new JobPosition__c(Name = 'position'+i,
                                                  CandidateLevel__c='Junior Software Engineer',
                                                  Location__c= 'USA' ,
@@ -48,13 +48,40 @@ public class DataFactory {
                                                  Position_Budget__c=400+i, 
                                                  HR_Manager__c =contact.Id));       
             }
-            else if(math.mod(i,2)==1){
+            else if(math.mod(i,5)==1){
                 Positions.add(new JobPosition__c(Name = 'position'+i,
                                                  CandidateLevel__c='Middle Software Engineer',
                                                  Location__c= 'Poland' ,
                                                  Practice_Unit__c='Java',
                                                  Priority__c='Low',
                                                  Position_Budget__c=400+i, 
+                                                 HR_Manager__c =contact.Id)); 
+            }
+            else if(math.mod(i,5)==2){
+                Positions.add(new JobPosition__c(Name = 'position'+i,
+                                                 CandidateLevel__c='Lead Software Engineer',
+                                                 Location__c= 'Ukraine' ,
+                                                 Practice_Unit__c='PHP',
+                                                 Priority__c='Hot',
+                                                 Position_Budget__c=500+i, 
+                                                 HR_Manager__c =contact.Id)); 
+            }
+            else if(math.mod(i,5)==3){
+                Positions.add(new JobPosition__c(Name = 'position'+i,
+                                                 CandidateLevel__c='Senior Software Engineer',
+                                                 Location__c= 'Belarus' ,
+                                                 Practice_Unit__c='Python',
+                                                 Priority__c='Hot',
+                                                 Position_Budget__c=500+i, 
+                                                 HR_Manager__c =contact.Id)); 
+            }
+            else if(math.mod(i,5)==4){
+                Positions.add(new JobPosition__c(Name = 'position'+i,
+                                                 CandidateLevel__c='Senior Software Engineer',
+                                                 Location__c= 'Belarus' ,
+                                                 Practice_Unit__c='.Net',
+                                                 Priority__c='Medium',
+                                                 Position_Budget__c=600+i, 
                                                  HR_Manager__c =contact.Id)); 
             }
             

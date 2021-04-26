@@ -15,9 +15,17 @@ public with sharing class JobPositionTriggerTest {
             if(position.Practice_Unit__c=='Salesforce'){
                 System.assert(position.Name.startsWith('SF-'));
             }
-            else
-            {
-                System.assert(!position.Name.startsWith('SF-'));
+            else if(position.Practice_Unit__c=='Java'){
+                System.assert(position.Name.startsWith('J-'));
+            }
+            else if(position.Practice_Unit__c=='Python'){
+                System.assert(position.Name.startsWith('PY-'));
+            }
+            else if(position.Practice_Unit__c=='PHP'){
+                System.assert(position.Name.startsWith('PHP-'));
+            }
+            else if(position.Practice_Unit__c=='.Net'){
+                System.assert(position.Name.startsWith('C#-'));
             }
         }
     }
